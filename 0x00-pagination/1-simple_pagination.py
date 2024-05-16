@@ -24,6 +24,9 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """
+        Return the appropriate page of the dataset (i.e. the correct list of rows)
+        """
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
         ranges = index_range(page, page_size)
