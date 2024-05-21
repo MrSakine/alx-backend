@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ MRUCache Caching """
-BaseCaching = __import__("base_caching").BaseCaching
 from collections import OrderedDict
+BaseCaching = __import__("base_caching").BaseCaching
 
 
 class MRUCache(BaseCaching):
