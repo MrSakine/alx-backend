@@ -41,13 +41,13 @@ class LRUCache(BaseCaching):
         if node:
             self._remove(node)
         new_node = Node(key, item)
-        self.cache_data[key] = new_node
         self._add(new_node)
         if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             lru = self.tail.prev
             self._remove(lru)
             del self.cache_data[lru.key]
             print("DISCARD: {}".format(lru.key))
+        self.cache_data[key] = new_node
 
     def get(self, key):
         """
