@@ -23,10 +23,10 @@ class BaseCaching():
 
     def put(self, key, item):
         """ Add an item in the cache """
-        message = IMPLEMENT.format("put")
+        message = self.IMPLEMENT.format("put")
         raise NotImplementedError(message)
 
     def get(self, key):
         """ Get an item by key """
-        message = IMPLEMENT.format("get")
+        message = self.IMPLEMENT.format("get")
         raise NotImplementedError(message)
