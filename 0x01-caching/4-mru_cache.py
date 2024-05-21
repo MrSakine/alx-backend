@@ -22,18 +22,18 @@ class MRUCache(BaseCaching):
         else:
             return None
 
-    def put(self, key, value):
+    def put(self, key, item):
         """
         Assign to the dictionary self.cache_data,
         the item value for the key
         """
         if key in self.cache_data:
-            self.cache_data[key] = value
+            self.cache_data[key] = item
             self.recent_keys.remove(key)
         else:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 mru_key = self.recent_keys.pop()
                 del self.cache_data[mru_key]
                 print("DISCARD: {}".format(mru_key))
-            self.cache_data[key] = value
+            self.cache_data[key] = item
         self.recent_keys.append(key)
