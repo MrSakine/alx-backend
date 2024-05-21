@@ -8,6 +8,6 @@ class Node:
         self.prev = None
         self.next = None
         
-    def __str(self):
+    def __str__(self):
         """String representation"""
         return self.value
