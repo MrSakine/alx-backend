@@ -15,13 +15,13 @@ class LRUCache(BaseCaching):
         self.tail = Node(0, 0)
         self.head.next = self.tail
         self.tail.prev = self.head
-        
+
     def _remove(self, node: Node):
         """Remove a node"""
         prev_node = node.prev
         next_node = node.next
         prev_node.next, next_node.prev = next_node, prev_node
-        
+
     def _add(self, node: Node):
         """Add a new node"""
         next_to_head = self.head.next
