@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ LRUCache Caching """
 BaseCaching = __import__("base_caching").BaseCaching
-Node = __import__("node").Node
 
 
 class LRUCache(BaseCaching):
@@ -11,51 +10,36 @@ class LRUCache(BaseCaching):
 
     def __init__(self) -> None:
         super().__init__()
-        self.head = Node(0, 0)
-        self.tail = Node(0, 0)
-        self.head.next = self.tail
-        self.tail.prev = self.head
-
-    def _remove(self, node: Node):
-        """Remove a node"""
-        prev_node = node.prev
-        next_node = node.next
-        prev_node.next, next_node.prev = next_node, prev_node
-
-    def _add(self, node: Node):
-        """Add a new node"""
-        next_to_head = self.head.next
-        self.head.next = node
-        node.prev = self.head
-        node.next = next_to_head
-        next_to_head.prev = node
+        self.__count = 0
+        self.__keys = []
+        self.__counts = []
 
     def put(self, key, item) -> None:
         """
         Assign to the dictionary self.cache_data,
         the item value for the key
         """
-        if key is None or item is None:
+        if not key or not item:
             return
-        node = self.cache_data.get(key)
-        if node:
-            self._remove(node)
-        new_node = Node(key, item)
-        self._add(new_node)
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            lru = self.tail.prev
-            self._remove(lru)
-            del self.cache_data[lru.key]
-            print("DISCARD: {}".format(lru.key))
-        self.cache_data[key] = new_node
+        if key in self.__keys:
+            index = self.__keys.index(key)
+            self.__keys.pop(index)
+            self.__counts.pop(index)
+        if len(self.__keys) == BaseCaching.MAX_ITEMS:
+            index = self.__counts.index(min(self.__counts))
+            self.__counts.pop(index)
+            self.cache_data.pop(self.__keys[index])
+            print('DISCARD: {}'.format(self.__keys.pop(index)))
+        self.__keys.append(key)
+        self.__counts.append(self.__count)
+        self.cache_data.update({key: item})
+        self.__count += 1
 
     def get(self, key):
         """
         Return the value in self.cache_data linked to key
         """
-        node = self.cache_data.get(key)
-        if not node:
-            return None
-        self._remove(node)
-        self._add(node)
-        return node.value
+        if key in self.__keys:
+            self.__count += 1
+            self.__counts[self.__keys.index(key)] = self.__count
+        return self.cache_data.get(key)
