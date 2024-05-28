@@ -22,4 +22,4 @@ def home():
 if __name__ == "__main__":
     """ Main Function """
     # babel.init_app(app)
-    app.run(host='0.0.0.0', port=5001)
+    app.run(debug=True)
