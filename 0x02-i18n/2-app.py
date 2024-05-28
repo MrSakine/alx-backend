@@ -21,9 +21,7 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale() -> str:
     """ Retrieves the locale for a web page """
-    languages = request.accept_languages
-    config = app.config["LANGUAGES"]
-    return languages.best_match(config)
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route("/")
