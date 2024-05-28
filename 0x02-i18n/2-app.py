@@ -1,6 +1,5 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Get locale from request """
-from config import Config
 from flask import Flask, render_template, request
 from flask_babel import Babel
 
@@ -20,10 +19,10 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale():
-    """ Get web app locale """
+def get_locale() -> str:
+    """ Retrieves the locale for a web page """
     languages = request.accept_languages
-    config = app.config['LANGUAGES']
+    config = app.config["LANGUAGES"]
     return languages.best_match(config)
 
 
@@ -35,4 +34,4 @@ def home():
 
 if __name__ == "__main__":
     """ Main Function """
-    app.run(debug=True)
+    app.run()

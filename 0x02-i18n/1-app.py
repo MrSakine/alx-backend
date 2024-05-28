@@ -1,6 +1,5 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Basic Babel setup """
-from config import Config
 from flask import Flask, render_template
 from flask_babel import Babel
 

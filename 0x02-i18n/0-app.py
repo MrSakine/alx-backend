@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Basic Flask app """
 from flask import Flask, render_template
 
