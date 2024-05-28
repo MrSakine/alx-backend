@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-""" Basic Babel setup """
+""" Get locale from request """
 from config import Config
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 app = Flask(__name__)
@@ -13,6 +13,13 @@ babel = Babel(
 )
 
 
+@babel.localeselector
+def get_locale():
+    """ Get web app locale """
+    languages = request.accept_languages
+    return languages.best_match(Config.LANGUAGES)
+
+
 @app.route("/")
 def home():
     """ Display content from html files for the route """
@@ -21,5 +28,4 @@ def home():
 
 if __name__ == "__main__":
     """ Main Function """
-    # babel.init_app(app)
     app.run(host='0.0.0.0', port=5001)
