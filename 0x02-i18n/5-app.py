@@ -48,7 +48,7 @@ def get_user():
 @app.route("/")
 def home():
     """ Display content from html files for the route """
-    return render_template("4-index.html")
+    return render_template("5-index.html")
 
 
 @app.before_request
