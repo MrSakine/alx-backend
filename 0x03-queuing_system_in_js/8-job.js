@@ -1,33 +1,33 @@
 import kue from 'kue';
 
-/**
- * Creates push notification jobs in the specified queue.
- * @param {Array} jobs - An array of job objects.
- * @param {kue.Queue} queue - The Kue queue to add jobs to.
- */
-export const createPushNotificationsJobs = (jobs, queue) => {
+export function createPushNotificationsJobs(jobs, queue) {
   if (!Array.isArray(jobs)) {
     throw new Error('Jobs is not an array');
   }
 
-  jobs.forEach((jobData) => {
-    const job = queue.create('push_notification_code_3', jobData)
-      .save((err) => {
-        if (!err) {
-          console.log(`Notification job created: ${job.id}`);
-        }
-      });
+  jobs.forEach((job) => {
+    const jobInstance = queue.create('push_notification_code_3', job);
 
-    job.on('complete', () => {
-      console.log(`Notification job ${job.id} completed`);
+    jobInstance.on('enqueue', () => {
+      console.log(`Notification job created: ${jobInstance.id}`);
     });
 
-    job.on('failed', (error) => {
-      console.log(`Notification job ${job.id} failed: ${error}`);
+    jobInstance.on('complete', () => {
+      console.log(`Notification job ${jobInstance.id} completed`);
     });
 
-    job.on('progress', (progress) => {
-      console.log(`Notification job ${job.id} ${progress}% complete`);
+    jobInstance.on('failed', (err) => {
+      console.log(`Notification job ${jobInstance.id} failed: ${err.message}`);
+    });
+
+    jobInstance.on('progress', (progress) => {
+      console.log(`Notification job ${jobInstance.id} ${progress}% complete`);
+    });
+
+    jobInstance.save((err) => {
+      if (err) {
+        console.error(`Error saving job: ${err.message}`);
+      }
     });
   });
-};
+}
